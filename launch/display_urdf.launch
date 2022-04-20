@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Arguments -->
+  <arg name="model" default="$(find raspicat_description)/urdf/raspicat.urdf"/>
+  <arg name="rviz_config" default="$(find raspicat_description)/launch/config/urdf.rviz"/>
+  <arg name="joint_state_gui" default="true"/>
+  
+  <!-- Prameters -->
+  <param name="robot_description" textfile="$(arg model)"/>
+  
+  <!-- Robot state publisher -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+  
+  <!-- Joint state publisher -->
+  <node if="$(arg joint_state_gui)" 
+    name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/>
+  
+  <node unless="$(arg joint_state_gui)" 
+    name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+  
+  <!-- Rviz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_config)" required="true"/>
+</launch>

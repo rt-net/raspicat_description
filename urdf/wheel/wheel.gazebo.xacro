@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<robot name="raspicat_wheel_gazebo" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="wheel_gazebo" params="prefix">
+    <gazebo reference="${prefix}_wheel_link">
+      <mu1>0.5</mu1>
+      <mu2>0.5</mu2>
+      <kp>500000.0</kp>
+      <kd>10.0</kd>
+      <maxVel>1.3</maxVel>
+      <fdir1>1 0 0</fdir1>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:macro name="wheel_controller_gazebo" params="publish_tf publish_jointstate robot_namespace">
+    <gazebo>
+      <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+        <robotNamespace>${robot_namespace}</robotNamespace>
+        <alwaysOn>true</alwaysOn>
+        <updateRate>10</updateRate>
+        <legacyMode>false</legacyMode>
+        <rosDebugLevel>na</rosDebugLevel>
+        <leftJoint>left_wheel_joint</leftJoint>
+        <rightJoint>right_wheel_joint</rightJoint>
+        <robotBaseFrame>base_footprint</robotBaseFrame>
+        <commandTopic>sim_cmd_vel</commandTopic>
+        <odometryTopic>odom</odometryTopic>
+        <odometryFrame>odom</odometryFrame>
+        <odometrySource>world</odometrySource>
+        <wheelSeparation>${wheel_separation}</wheelSeparation>
+        <wheelDiameter>${wheel_radius * 2.0}</wheelDiameter>
+        <wheelTorque>50</wheelTorque>
+        <wheelAcceleration>1</wheelAcceleration>
+        <publishTf>${publish_tf}</publishTf>
+        <publishWheelTF>${publish_tf}</publishWheelTF>
+        <publishOdomTF>${publish_tf}</publishOdomTF>
+        <publishWheelJointState>${publish_jointstate}</publishWheelJointState>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+</robot>

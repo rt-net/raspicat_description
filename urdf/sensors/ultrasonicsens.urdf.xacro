@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot name="raspicat_ultrasonic_sensor" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find raspicat_description)/urdf/sensors/ultrasonicsens.gazebo.xacro"/>
+
+  <xacro:macro name="ultrasonic_sensor" params="prefix parent *joint_origin">
+    <joint name="${prefix}_usensor_joint" type="fixed">
+      <xacro:insert_block name="joint_origin"/>
+      <parent link="${parent}"/>
+      <child link="${prefix}_usensor_link"/>
+    </joint>
+    <link name="${prefix}_usensor_link"/>
+  </xacro:macro>
+</robot>

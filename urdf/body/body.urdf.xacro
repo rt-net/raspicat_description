@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot name="raspicat_base_body" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find raspicat_description)/urdf/body/body.gazebo.xacro"/>
+
+  <xacro:macro name="base_body" params="parent *joint_origin">
+    <joint name="base_joint" type="fixed">
+      <xacro:insert_block name="joint_origin"/>
+      <parent link="${parent}"/>
+      <child link="base_link"/>
+    </joint>
+    <link name="base_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://raspicat_description/meshes/dae/body/raspicat_base.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://raspicat_description/meshes/dae/body/raspicat_base.dae"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${base_body_mass}"/>
+        <inertia ixx="0.0485945486"  ixy="-0.000688599502" ixz="0.006243498002"
+                 iyy="0.07472816111" iyz="0.000058604121" 
+                 izz="0.08479504851"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+</robot>

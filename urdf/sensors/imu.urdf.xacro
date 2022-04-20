@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot name="raspicat_imu_sensor" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find raspicat_description)/urdf/sensors/imu.gazebo.xacro"/>
+
+  <xacro:macro name="imu_sensor" params="prefix parent *joint_origin">
+    <joint name="${prefix}_joint" type="fixed">
+      <xacro:insert_block name="joint_origin"/>
+      <parent link="${parent}"/>
+      <child link="${prefix}_link"/>
+    </joint>
+    <link name="${prefix}_link"/>
+  </xacro:macro>
+</robot>

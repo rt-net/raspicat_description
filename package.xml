@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>raspicat_description</name>
+  <version>0.0.0</version>
+  <description>The raspicat_description package</description>
+
+  <maintainer email="support@rt-net.jp">RT Corporation</maintainer>
+
+  <license>Apache-2.0</license>
+
+  <url type="repository">https://github.com/rt-net/raspicat_description</url>
+  <url type="bugtracker">https://github.com/rt-net/raspicat_description/issues</url>
+  <url type="website">https://rt-net.github.io/tutorials/raspicat/</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>joint_state_publisher</depend>
+  <depend>robot_state_publisher</depend>
+  <depend>urdf</depend>
+  <depend>xacro</depend>
+
+</package>

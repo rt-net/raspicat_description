@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot name="raspicat_caster_gazebo" xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <xacro:macro name="lidar_gazebo" params="lidar_frame min_angle max_angle min_range max_range visualize">
+    <gazebo reference="${lidar_frame}">
+      <sensor type="ray" name="${lidar_frame}_sensor">
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>${visualize}</visualize>
+        <update_rate>10</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>1440</samples>
+              <resolution>1</resolution>
+              <min_angle>${min_angle}</min_angle>
+              <max_angle>${max_angle}</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>${min_range}</min>
+            <max>${max_range}</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </ray>
+        <plugin name="gazebo_ros_${lidar_frame}_controller" filename="libgazebo_ros_laser.so">
+          <topicName>scan</topicName>
+          <frameName>${lidar_frame}</frameName>
+        </plugin>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+</robot>
