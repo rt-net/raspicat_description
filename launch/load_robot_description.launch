@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- arguments -->
+  <arg name="model" default="$(find raspicat_description)/robots/raspicat.urdf.xacro"/>
+  <arg name="namespace" default="/"/>
+  <arg name="lidar_frame" default="lidar_link"/>
+  <arg name="laser_visual" default="false" />
+  <arg name="ultrasonic_visual" default="true" />
+  
+  <!-- raspicat urdf description -->
+  <!-- parameters -->
+  <!-- in-order processing (\-\-inorder option) became default in ROS Melodic -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(arg model)' 
+    lidar_frame:='$(arg lidar_frame)' laser_visual:='$(arg laser_visual)' ultrasonic_visual:='$(arg ultrasonic_visual)' "/>
+
+  <!-- nodes -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+    <param name="tf_prefix" value="$(arg namespace)" />
+  </node>
+  
+</launch>

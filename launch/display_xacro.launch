@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <launch>
-  <!-- Arguments -->
+  <!-- arguments -->
   <arg name="model" default="$(find raspicat_description)/robots/raspicat.urdf.xacro"/>
   <arg name="rviz_config" default="$(find raspicat_description)/launch/config/urdf.rviz"/>
   <arg name="joint_state_gui" default="true"/>
-  
-  <!-- Prameters -->
-  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(arg model)'"/>
-  
-  <!-- Robot state publisher -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+  <arg name="namespace" default="/" />
 
-  <!-- Joint state publisher -->
+  <include file="$(find raspicat_description)/launch/load_robot_description.launch">
+    <arg name="model" value="$(arg model)" />
+    <arg name="namespace" value="$(arg namespace)" />
+  </include>
+
+  <!-- joint_state_publisher -->
   <node if="$(arg joint_state_gui)" 
     name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/>
   
