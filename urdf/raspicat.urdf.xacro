@@ -134,7 +134,7 @@
     <!-- Camera -->
     <xacro:if value="$(arg camera_gazebo_plugin)">
       <xacro:realsensed435_color_gazebo
-        color_fps="15" color_width="1920" color_height="1080"/>
+        color_fps="15" color_width="1920" color_height="1080" pointCloud_z_min="0.2" pointCloud_z_max="5"/>
 
       <xacro:realsensed435_depth_gazebo
         depth_fps="15" depth_width="1280" depth_height="720" pointCloud_z_min="0.2" pointCloud_z_max="5"/>

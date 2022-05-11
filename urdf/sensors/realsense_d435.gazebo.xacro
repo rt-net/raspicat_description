@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:macro name="realsensed435_color_gazebo" params="color_fps color_width color_height">
+  <xacro:macro name="realsensed435_color_gazebo" params="color_fps color_width color_height pointCloud_z_min pointCloud_z_max">
     <gazebo reference="camera_color_frame">
-      <sensor type="camera" name="color_camera">
+      <sensor type="depth" name="color_camera">
         <update_rate>${color_fps}</update_rate>
-        <camera name="color_camera">
+        <camera name="color_and_aligned_depth_camera">
           <horizontal_fov>${radians(69.4)}</horizontal_fov>
           <image>
             <width>${color_width}</width>
@@ -13,17 +13,22 @@
             <format>R8G8B8</format>
           </image>
           <clip>
-            <near>0.02</near>
-            <far>300.0</far>
+            <near>${pointCloud_z_min}</near>
+            <far>${pointCloud_z_max}</far>
           </clip>
         </camera>
-        <plugin name="color_camera_controller" filename="libgazebo_ros_camera.so">
+        <plugin name="color_and_aligned_depth_camera" filename="libgazebo_ros_openni_kinect.so">
           <baseline>0.2</baseline>
           <alwaysOn>true</alwaysOn>
           <updateRate>${color_fps}</updateRate>
-          <cameraName>camera/color</cameraName>
-          <imageTopicName>image_raw</imageTopicName>
-          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <cameraName>camera</cameraName>
+          <depthImageTopicName>aligned_depth_to_color/image_raw</depthImageTopicName>
+          <depthImageCameraInfoTopicName>aligned_depth_to_color/camera_info</depthImageCameraInfoTopicName>
+          <imageTopicName>color/image_raw</imageTopicName>
+          <cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
+          <pointCloudTopicName>aligned_depth_to_color/points</pointCloudTopicName>
+          <pointCloudCutoff>${pointCloud_z_min}</pointCloudCutoff>
+          <pointCloudCutoffMax>${pointCloud_z_max}</pointCloudCutoffMax>
           <frameName>camera_color_optical_frame</frameName>
           <hackBaseline>0.07</hackBaseline>
           <distortionK1>0.0</distortionK1>
@@ -57,7 +62,7 @@
           <alwaysOn>true</alwaysOn>
           <updateRate>${depth_fps}</updateRate>
           <cameraName>camera/depth</cameraName>
-          <depthImageTopicName>image_raw</depthImageTopicName>
+          <depthImageTopicName>image_rect_raw</depthImageTopicName>
           <depthImageCameraInfoTopicName>camera_info</depthImageCameraInfoTopicName>
           <imageTopicName>color/image_raw</imageTopicName>
           <cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
