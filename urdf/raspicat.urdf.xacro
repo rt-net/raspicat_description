@@ -8,14 +8,14 @@
   <xacro:arg name="gazebo_plugin"         default="true"/>
   <xacro:arg name="camera_gazebo_plugin"  default="true"/>
   <xacro:arg name="imu_gazebo_plugin"     default="true"/>
-  
+
   <xacro:arg name="diffdrive_pub_tf"      default="true"/>
   <xacro:arg name="jointstate"            default="true"/>
 
   <xacro:arg name="laser_visual"          default="false"/>
   <xacro:arg name="ultrasonic_visual"     default="true"/>
 
-  <xacro:arg name="robot_namespace"       default="/"/>
+  <xacro:arg name="robot_namespace"       default=""/>
   <xacro:arg name="diffdrive_namespace"   default="/"/>
 
   <xacro:arg name="lidar_frame"           default="lidar_link"/>
@@ -36,12 +36,12 @@
 
   <!-- =============== Link & Joint =============== -->
   <link name="base_footprint"/>
-  
+
   <!-- Base_body -->
   <xacro:base_body parent="base_footprint">
     <origin xyz="0 0 0.0762" rpy="0 0 0"/>
   </xacro:base_body>
-  
+
   <!-- Wheel -->
   <xacro:wheel prefix="right" parent="base_link">
     <origin xyz="0 -0.13959 0" rpy="-1.57 0 0"/>
@@ -76,7 +76,7 @@
   <xacro:ultrasonic_sensor prefix="right_side" parent="base_link">
     <origin xyz="0.1055 -0.1165 -0.00795" rpy="0 0 -0.837758"/>
   </xacro:ultrasonic_sensor>
-  
+
   <xacro:ultrasonic_sensor prefix="right_front" parent="base_link">
     <origin xyz="0.1435 -0.064 -0.00795" rpy="0 0 -0.418879"/>
   </xacro:ultrasonic_sensor>
