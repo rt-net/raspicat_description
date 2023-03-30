@@ -63,7 +63,7 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration('use_rviz')))
 
     rviz_config_file = os.path.join(get_package_share_directory(
-        'raspicat_description'), 'config', 'urdf.rviz')
+        'raspicat_description'), 'rviz', 'urdf.rviz')
     rviz_node = Node(package='rviz2',
                      executable='rviz2',
                      name='rviz2',
