@@ -66,8 +66,7 @@ def generate_launch_description():
     joint_state_publisher_gui = Node(
         package='joint_state_publisher_gui',
         executable='joint_state_publisher_gui',
-        output='screen',
-        condition=IfCondition(use_rviz))
+        output='screen')
 
     rviz_config_file = os.path.join(get_package_share_directory(
         'raspicat_description'), 'rviz', 'urdf.rviz')
