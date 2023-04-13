@@ -1,6 +1,6 @@
 # raspicat_description
 
-ROS package with URDF description macro for Raspberry Pi Cat
+ROS 2 package with URDF description macro for Raspberry Pi Cat
 
 ![](https://rt-net.github.io/images/raspberry-pi-cat/display_launch.png)
 
@@ -9,13 +9,13 @@ ROS package with URDF description macro for Raspberry Pi Cat
 ```sh
 # Clone raspicat_description and install dependencies
 cd ~/catkin_ws/src
-git clone https://github.com/rt-net/raspicat_description.git
+git clone -b ros2 https://github.com/rt-net/raspicat_description.git
 rosdep install -r -y -i --from-paths .
 
 # Build the package
 cd ~/catkin_ws
-catkin_make
-source devel/setup.bash
+colcon build --symlink-install
+source ~/catkin_ws/install/setup.bash
 ```
 
 ## Usage
@@ -23,7 +23,7 @@ source devel/setup.bash
 Display the Raspberry Pi Cat robot model on RViz with the following comand:
 
 ```sh
-roslaunch raspicat_description display_xacro.launch 
+ros2 launch raspicat_description display.launch.py
 ```
 
 See [RT Software Tutorials](https://rt-net.github.io/tutorials/raspicat/) for more detailed information.
