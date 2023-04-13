@@ -15,29 +15,35 @@
 import os
 
 from ament_index_python.packages import get_package_share_directory
+
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition
-from launch_ros.actions import Node
-from launch_ros.actions import PushRosNamespace
 from launch.substitutions import Command
 from launch.substitutions import LaunchConfiguration
 
+from launch_ros.actions import Node
+from launch_ros.actions import PushRosNamespace
+
 
 def generate_launch_description():
-    declare_arg_lidar = DeclareLaunchArgument(
+    lidar_frame = LaunchConfiguration('lidar_frame')
+    namespace = LaunchConfiguration('namespace')
+    use_rviz = LaunchConfiguration('use_rviz')
+    
+    declare_lidar = DeclareLaunchArgument(
         'lidar',
         default_value='none',
         description='Set "none", "urg", "lds", or "rplidar".')
-    declare_arg_lidar_frame = DeclareLaunchArgument(
+    declare_lidar_frame = DeclareLaunchArgument(
         'lidar_frame',
         default_value='laser',
         description='Set lidar link name.')
-    declare_arg_namespace = DeclareLaunchArgument(
+    declare_namespace = DeclareLaunchArgument(
         'namespace',
         default_value='',
         description='Set namespace for tf tree.')
-    declare_arg_use_rviz = DeclareLaunchArgument(
+    declare_use_rviz = DeclareLaunchArgument(
         'use_rviz',
         default_value='true',
         description='Set "true" to launch rviz.')
@@ -46,38 +52,43 @@ def generate_launch_description():
         'raspicat_description'), 'urdf', 'raspicat.urdf.xacro')
     params = {'robot_description':
               Command(['xacro ', xacro_file,
-                       ' lidar_frame:=', LaunchConfiguration('lidar_frame'), ]),
-              'frame_prefix': [LaunchConfiguration('namespace'), '/']}
+                       ' lidar_frame:=', lidar_frame, ]),
+                        'frame_prefix': [namespace, '/']}
 
     push_ns = PushRosNamespace([LaunchConfiguration('namespace')])
 
-    rsp = Node(package='robot_state_publisher',
-               executable='robot_state_publisher',
-               output='both',
-               parameters=[params])
+    robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        output='both',
+        parameters=[params])
 
-    jsp = Node(
+    joint_state_publisher_gui = Node(
         package='joint_state_publisher_gui',
         executable='joint_state_publisher_gui',
         output='screen',
-        condition=IfCondition(LaunchConfiguration('use_rviz')))
+        condition=IfCondition(use_rviz))
 
     rviz_config_file = os.path.join(get_package_share_directory(
         'raspicat_description'), 'rviz', 'urdf.rviz')
-    rviz_node = Node(package='rviz2',
-                     executable='rviz2',
-                     name='rviz2',
-                     output='log',
-                     arguments=['-d', rviz_config_file],
-                     condition=IfCondition(LaunchConfiguration('use_rviz')))
+    rviz2 = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='log',
+        arguments=['-d', rviz_config_file],
+        condition=IfCondition(use_rviz))
 
-    return LaunchDescription([
-        declare_arg_lidar,
-        declare_arg_lidar_frame,
-        declare_arg_namespace,
-        declare_arg_use_rviz,
-        push_ns,
-        rsp,
-        jsp,
-        rviz_node,
-        ])
+    ld = LaunchDescription()
+
+    ld.add_action(declare_lidar)
+    ld.add_action(declare_lidar_frame)
+    ld.add_action(declare_namespace)
+    ld.add_action(declare_use_rviz)
+    
+    ld.add_action(push_ns)
+    ld.add_action(robot_state_publisher)
+    ld.add_action(joint_state_publisher_gui)
+    ld.add_action(rviz2)
+
+    return(ld)
