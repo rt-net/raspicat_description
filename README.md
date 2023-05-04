@@ -30,7 +30,7 @@ See [RT Software Tutorials](https://rt-net.github.io/tutorials/raspicat/) for mo
 
 ## LICENSE
 
-(C) 2021-2022 RT Corporation
+(C) 2021-2023 RT Corporation
 
 This repository is licensed under the Apache License, Version 2.0, see [LICENSE](./LICENSE).  
 Unless attributed otherwise, everything in this repository is under the Apache License, Version 2.0.
