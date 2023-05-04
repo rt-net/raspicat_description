@@ -22,14 +22,12 @@
             <resolution>0.001</resolution>
           </range>
         </ray>
-        <plugin name="gazebo_ros_${prefix}_ultrasonic_sensor_controller" filename="libgazebo_ros_range.so">
-          <topicName>${prefix}_ultrasonic_sensor</topicName>
-          <frameName>${prefix}_usensor_link</frameName>
-          <gaussianNoise>0.005</gaussianNoise>
-          <alwaysOn>true</alwaysOn>
-          <updateRate>10</updateRate>
-          <radiation>ultrasound</radiation>
-          <fov>0.2967</fov>
+        <plugin name="gazebo_ros_${prefix}_ultrasonic_sensor_controller" filename="libgazebo_ros_ray_sensor.so">
+          <ros>
+            <remapping>~/out:=${prefix}_ultrasonic_sensor</remapping>
+          </ros>
+          <frame_name>${prefix}_usensor_link</frame_name>
+          <output_type>sensor_msgs/LaserScan</output_type>
         </plugin>
       </sensor>
     </gazebo>
