@@ -2,8 +2,72 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:macro name="realsensed435_color_gazebo" params="color_fps color_width color_height pointCloud_z_min pointCloud_z_max">
+    <gazebo reference="camera_color_optical_frame">
+      <sensor name="camera" type="camera">
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <update_rate>${color_fps}</update_rate>
+        <camera>
+          <horizontal_fov>${radians(69.4)}</horizontal_fov>
+          <image>
+            <width>${color_width}</width>
+            <height>${color_height}</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>30</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+          <plugin name="camera_driver" filename="libgazebo_ros_camera.so">
+            <ros>
+              <remapping>camera/image_raw:=camera/color/image_raw</remapping>
+              <remapping>camera/camera_info:=camera/color/camera_info</remapping>
+            </ros>
+          </plugin>
+      </sensor>
+    </gazebo>
   </xacro:macro>
 
   <xacro:macro name="realsensed435_depth_gazebo" params="depth_fps depth_width depth_height pointCloud_z_min pointCloud_z_max">
+    <gazebo reference="camera_depth_optical_frame">
+      <sensor name="camera" type="depth">
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <update_rate>${depth_fps}</update_rate>
+        <camera>
+          <horizontal_fov>${radians(91.2)}</horizontal_fov>
+          <image>
+            <width>${depth_width}</width>
+            <height>${depth_height}</height>
+            <format>B8G8R8</format>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>30</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+        <plugin name="depth_camera_driver" filename="libgazebo_ros_camera.so">
+          <ros>
+            <remapping>camera/image_raw:=camera/depth/color/image_raw</remapping>
+            <remapping>camera/depth/image_raw:=camera/depth/image_raw</remapping>
+            <remapping>camera/camera_info:=camera/depth/color/camera_info</remapping>
+            <remapping>camera/depth/camera_info:=camera/depth/camera_info</remapping>
+            <remapping>camera/points:=camera/depth/color/points</remapping>
+          </ros>
+          <max_depth>30</max_depth>
+        </plugin>
+      </sensor>
+    </gazebo>
   </xacro:macro>
 </robot>
