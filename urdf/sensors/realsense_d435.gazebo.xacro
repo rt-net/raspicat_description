@@ -65,7 +65,8 @@
             <remapping>camera/depth/camera_info:=camera/depth/camera_info</remapping>
             <remapping>camera/points:=camera/depth/color/points</remapping>
           </ros>
-          <max_depth>30</max_depth>
+          <min_depth>${pointCloud_z_min}</min_depth>
+          <max_depth>${pointCloud_z_max}</max_depth>
         </plugin>
       </sensor>
     </gazebo>
