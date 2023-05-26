@@ -15,7 +15,7 @@ rosdep install -r -y -i --from-paths .
 # Build the package
 cd ~/catkin_ws
 colcon build --symlink-install
-source ~/catkin_ws/install/setup.bash
+source install/setup.bash
 ```
 
 ## Usage
