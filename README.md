@@ -1,6 +1,6 @@
 # raspicat_description
 
-ROS 2 package with URDF description macro for Raspberry Pi Cat
+ROS 2 package with URDF description macro for Raspberry Pi Cat.
 
 ![](https://rt-net.github.io/images/raspberry-pi-cat/display_launch.png)
 
@@ -10,12 +10,13 @@ ROS 2 package with URDF description macro for Raspberry Pi Cat
 # Clone raspicat_description and install dependencies
 cd ~/catkin_ws/src
 git clone -b ros2 https://github.com/rt-net/raspicat_description.git
-rosdep install -r -y -i --from-paths .
+rosdep update
+rosdep install -r -y -i --from-paths raspicat*
 
 # Build the package
 cd ~/catkin_ws
 colcon build --symlink-install
-source install/setup.bash
+source ~/catkin_ws/install/setup.bash
 ```
 
 ## Usage
